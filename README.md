@@ -52,10 +52,8 @@ AddBoxZone("NewRentalMenu4", vector3(-1230.054, -176.4136, 39.327087), 2, 3.2, {
 * Go to qb-inventory -> html -> js -> app.js and between lines 500-600 add the following code
 
 ```lua
-          } else if (itemData.name == "stickynote") {
-            $(".item-info-title").html('<p>' + itemData.label + '</p>')
-            $(".item-info-description").html('<p>' + itemData.info.label + '</p>');
-        } else if (itemData.name == "rentalpapers") {
+
+          } else if (itemData.name == "rentalpapers") {
             $(".item-info-title").html('<p>' + itemData.label + '</p>')
             $(".item-info-description").html('<p><strong>Plate: </strong><span>'+ itemData.info.label + '</span></p>');
 
