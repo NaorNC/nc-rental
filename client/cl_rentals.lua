@@ -98,7 +98,7 @@ AddEventHandler("nc-rental:vehiclespawn", function(data, cb)
   end
 end)
 
-AddEventHandler("nn-inventory:itemUsed", function(item, info)
+AddEventHandler("nc-inventory:itemUsed", function(item, info)
   if item == "rentalpapers" then
 
     local plyPed = PlayerPedId()
