@@ -1,5 +1,5 @@
-NCCore = nil
-TriggerEvent('NCCore:GetObject', function(obj) NCCore = obj end)
+QBCore = nil
+TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
 
 RegisterNetEvent("nc-rental:vehiclelist")
 AddEventHandler("nc-rental:vehiclelist", function()
@@ -28,7 +28,7 @@ end)
 
 RegisterNetEvent("nc-rental:attemptvehiclespawnfail")
 AddEventHandler("nc-rental:attemptvehiclespawnfail", function()
-  NCCore.Functions.Notify("Not enough money.", "error")
+  QBCore.Functions.Notify("Not enough money.", "error")
 end)
 
 local PlayerName = nil
@@ -39,7 +39,7 @@ AddEventHandler("nc-rental:giverentalpaperClient", function(model, plate, name)
   local info = {
     data = "Model : "..tostring(model).." | Plate : "..tostring(plate)..""
   }
-  TriggerServerEvent('NCCore:Server:AddItem', "rentalpapers", 1, info)
+  TriggerServerEvent('QBCore:Server:AddItem', "rentalpapers", 1, info)
 end)
 
 RegisterNetEvent("nc-rental:returnvehicle")
@@ -50,22 +50,22 @@ AddEventHandler("nc-rental:returnvehicle", function()
     local plate = GetVehicleNumberPlateText(car)
     local vehname = string.lower(GetDisplayNameFromVehicleModel(GetEntityModel(car)))
     if string.find(tostring(plate), "NC") then
-      NCCore.Functions.TriggerCallback('nc-rental:server:hasrentalpapers', function(HasItem)
+      QBCore.Functions.TriggerCallback('nc-rental:server:hasrentalpapers', function(HasItem)
         if HasItem then
-          TriggerServerEvent("NCCore:Server:RemoveItem", "rentalpapers", 1)
+          TriggerServerEvent("QBCore:Server:RemoveItem", "rentalpapers", 1)
           TriggerServerEvent('nc-rental:server:payreturn',vehname)
           DeleteVehicle(car)
           DeleteEntity(car)
         else
-          NCCore.Functions.Notify("I cannot take a vehicle without its papers.", "error")
+          QBCore.Functions.Notify("I cannot take a vehicle without its papers.", "error")
         end
       end)
     else
-      NCCore.Functions.Notify("This is not a rented vehicle.", "error")
+      QBCore.Functions.Notify("This is not a rented vehicle.", "error")
     end
 
   else
-    NCCore.Functions.Notify("I don't see any rented vehicle, make sure its nearby.", "error")
+    QBCore.Functions.Notify("I don't see any rented vehicle, make sure its nearby.", "error")
   end
 end)
 
@@ -108,9 +108,9 @@ AddEventHandler("nc-inventory:itemUsed", function(item, info)
       local isRental = vin ~= nil and string.sub(vin, 2, 3) == "NC"
       if isRental then
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(plyVeh))
-        NCCore.Functions.Notify("You received the vehicle keys.", "success")
+        QBCore.Functions.Notify("You received the vehicle keys.", "success")
       else
-        NCCore.Functions.Notify("This rental does not exist.", "success")
+        QBCore.Functions.Notify("This rental does not exist.", "success")
       end
   end
 end)
