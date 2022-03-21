@@ -1,7 +1,7 @@
 # Video of the script:
 
 * click - https://streamable.com/msejyp
-* If you have any further questions, you can add me to Discord. [Found in my github profile]
+* If you have any further questions, you can add me to Discord. [https://discord.gg/eET8CtgX97]
 
 # Installation
 
