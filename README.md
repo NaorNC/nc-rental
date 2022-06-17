@@ -1,3 +1,6 @@
+**This resource I will not been take any credits**
+Its been Edited for XYZ Roleplay
+
 # Video of the script:
 
 * click - https://streamable.com/msejyp
@@ -58,3 +61,6 @@ AddBoxZone("NewRentalMenu4", vector3(-1230.054, -176.4136, 39.327087), 2, 3.2, {
             $(".item-info-description").html('<p><strong>Plate: </strong><span>'+ itemData.info.label + '</span></p>');
 
 ```
+
+
+#Added Blips in Config Folder
