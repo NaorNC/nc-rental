@@ -1,5 +1,4 @@
-QBCore = nil
-TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
+QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterServerEvent('nc-rental:attemptPurchase')
 AddEventHandler('nc-rental:attemptPurchase', function(car,price)

@@ -1,5 +1,4 @@
-QBCore = nil
-TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
+QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterNetEvent("nc-rental:vehiclelist")
 AddEventHandler("nc-rental:vehiclelist", function()
@@ -86,7 +85,7 @@ AddEventHandler("nc-rental:vehiclespawn", function(data, cb)
   SetVehicleOnGroundProperly(veh)
   SetVehicleNumberPlateText(veh, "NC"..tostring(math.random(1000, 9999)))
   local plate = GetVehicleNumberPlateText(veh)
-  TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh), veh)
+  TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
 
   local plateText = GetVehicleNumberPlateText(veh)
   TriggerServerEvent("nc-rental:giverentalpaperServer",model ,plateText)
@@ -107,10 +106,52 @@ AddEventHandler("nc-inventory:itemUsed", function(item, info)
       local vin = GetVehicleNumberPlateText(plyVeh)
       local isRental = vin ~= nil and string.sub(vin, 2, 3) == "NC"
       if isRental then
-        TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(plyVeh))
+        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
+        TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
         QBCore.Functions.Notify("You received the vehicle keys.", "success")
       else
         QBCore.Functions.Notify("This rental does not exist.", "success")
       end
   end
 end)
+
+
+-- Adding Blips in config folder # MoneSuper
+CreateThread(function()
+  for _, rental in pairs(Config.Locations["rentalstations"]) do
+      local blip = AddBlipForCoord(rental.coords.x, rental.coords.y, rental.coords.z)
+      SetBlipSprite(blip, 326)
+      SetBlipAsShortRange(blip, true)
+      SetBlipScale(blip, 0.8)
+      SetBlipColour(blip, 4)
+      BeginTextCommandSetBlipName("STRING")
+      AddTextComponentString(rental.label)
+      EndTextCommandSetBlipName(blip)
+  end
+end)
+
+
+
+-- Exports to Polyzone Box # Config could also work # MoneSuper
+exports['qb-target']:AddBoxZone("NewRentalMenu4", vector3(-1230.054, -176.4136, 39.327087), 2, 3.2, {
+  name="NewRentalMenu4",
+  heading=0,
+  debugPoly=false,
+  minZ=38.301415,
+  maxZ=40.301415
+  }, {
+      options = {
+          {
+              event = "nc-rental:vehiclelist",
+              icon = "fas fa-circle",
+              label = "Rent vehicle",
+          },
+          {
+              event = "nc-rental:returnvehicle",
+              icon = "fas fa-circle",
+              label = "Return Vehicle (Receive Back 50% of original price)",
+          },
+      },
+      job = {"all"},
+      distance = 3.5
+})
