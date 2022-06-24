@@ -1,7 +1,6 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent('qb-rental:attemptPurchase')
-AddEventHandler('qb-rental:attemptPurchase', function(car,price)
+RegisterServerEvent('qb-rental:attemptPurchase', function(car,price)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
     local cash = Player.PlayerData.money.cash
@@ -14,8 +13,7 @@ AddEventHandler('qb-rental:attemptPurchase', function(car,price)
     end
 end)
 
-RegisterServerEvent('qb-rental:giverentalpaperServer')
-AddEventHandler('qb-rental:giverentalpaperServer', function(model, plateText)
+RegisterServerEvent('qb-rental:giverentalpaperServer', function(model, plateText)
     local src = source
     local PlayerData = QBCore.Functions.GetPlayer(src)
     local info = {
@@ -25,8 +23,7 @@ AddEventHandler('qb-rental:giverentalpaperServer', function(model, plateText)
     TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['rentalpapers'], "add")
 end)
 
-RegisterServerEvent('qb-rental:server:payreturn')
-AddEventHandler('qb-rental:server:payreturn', function(model)
+RegisterServerEvent('qb-rental:server:payreturn', function(model)
     local src = source
     local Player = QBCore.Functions.GetPlayer(source)
     for k,v in pairs(Config.vehicleList) do 

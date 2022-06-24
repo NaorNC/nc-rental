@@ -2,6 +2,7 @@
 
 * click - https://streamable.com/msejyp
 * If you have any further questions, you can add me to Discord - NaorNC#8998
+* Can either use nh-context or qb-menu!
 
 # Installation
 
@@ -9,12 +10,14 @@
 * Download nh-context and put it in the [resource] or [standalone] folder. (it doesn't really matter)
 Add the following code to your server.cfg/resouces.cfg
 ```
-ensure nh-context
+ensure nh-context or qb-menu
 ensure qb-rental
 ```
 
 # Dependencies
 * [nh-context](https://github.com/nighmares/nh-context)
+or
+* [qb-menu](https://github.com/qbcore-framework/qb-menu)
 
 # Use via Eye Target
 

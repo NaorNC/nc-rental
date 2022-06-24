@@ -1,39 +1,60 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterNetEvent("qb-rental:vehiclelist")
-AddEventHandler("qb-rental:vehiclelist", function()
+RegisterNetEvent("qb-rental:vehiclelist", function()
   for i = 1, #Config.vehicleList do
-    TriggerEvent('nh-context:sendMenu', {
-      {
-        id = Config.vehicleList[i].model,
-        header = Config.vehicleList[i].name,
-        txt = "$"..Config.vehicleList[i].price..".00",
-        params = {
-          event = "qb-rental:attemptvehiclespawn",
-          args = {
+      if Config.setupMenu == 'nh-context' then
+        TriggerEvent('nh-context:sendMenu', {
+          {
             id = Config.vehicleList[i].model,
-            price = Config.vehicleList[i].price,
-          }
-        }
-      },
-    })
-  end
+            header = Config.vehicleList[i].name,
+            txt = "$"..Config.vehicleList[i].price..".00",
+            params = {
+              event = "qb-rental:attemptvehiclespawn",
+              args = {
+                id = Config.vehicleList[i].model,
+                price = Config.vehicleList[i].price,
+              }
+            }
+          },
+        })
+      elseif Config.setupMenu == 'qb-menu' then
+        	local MenuOptions = {
+        		{
+        			header = "Vehicle Rental",
+        			isMenuHeader = true
+        		},
+        	}
+        	for k, v in pairs(Config.vehicleList) do
+          
+          
+        		MenuOptions[#MenuOptions+1] = {
+        			header = "<h8>"..v.name.."</h>",
+              txt = "$"..v.price..".00",
+        			params = {
+                event = "qb-rental:attemptvehiclespawn",
+                args = {
+                  id = v.model,
+                  price = v.price
+                }
+        			}
+        		}
+        	end
+        	exports['qb-menu']:openMenu(MenuOptions)
+      end
+    end
 end)
 
-RegisterNetEvent("qb-rental:attemptvehiclespawn")
-AddEventHandler("qb-rental:attemptvehiclespawn", function(vehicle)
+RegisterNetEvent("qb-rental:attemptvehiclespawn", function(vehicle)
     TriggerServerEvent("qb-rental:attemptPurchase",vehicle.id, vehicle.price)
 end)
 
-RegisterNetEvent("qb-rental:attemptvehiclespawnfail")
-AddEventHandler("qb-rental:attemptvehiclespawnfail", function()
+RegisterNetEvent("qb-rental:attemptvehiclespawnfail", function()
   QBCore.Functions.Notify("Not enough money.", "error")
 end)
 
 local PlayerName = nil
 
-RegisterNetEvent("qb-rental:giverentalpaperClient")
-AddEventHandler("qb-rental:giverentalpaperClient", function(model, plate, name)
+RegisterNetEvent("qb-rental:giverentalpaperClient", function(model, plate, name)
 
   local info = {
     data = "Model : "..tostring(model).." | Plate : "..tostring(plate)..""
@@ -41,8 +62,7 @@ AddEventHandler("qb-rental:giverentalpaperClient", function(model, plate, name)
   TriggerServerEvent('QBCore:Server:AddItem', "rentalpapers", 1, info)
 end)
 
-RegisterNetEvent("qb-rental:returnvehicle")
-AddEventHandler("qb-rental:returnvehicle", function()
+RegisterNetEvent("qb-rental:returnvehicle", function()
   local car = GetVehiclePedIsIn(PlayerPedId(),true)
 
   if car ~= 0 then
@@ -68,15 +88,14 @@ AddEventHandler("qb-rental:returnvehicle", function()
   end
 end)
 
-RegisterNetEvent("qb-rental:vehiclespawn") 
-AddEventHandler("qb-rental:vehiclespawn", function(data, cb)
+RegisterNetEvent("qb-rental:vehiclespawn", function(data, cb)
   local model = data
 
   local closestDist = 10000
   local closestSpawn = nil
   local pcoords = GetEntityCoords(PlayerPedId())
   
-  for i, v in ipairs(Config.spawn) do
+  for i, v in ipairs(Config.vehicleSpawn) do
       local dist = #(v.workSpawn.coords - pcoords)
   
       if dist < closestDist then
@@ -165,8 +184,7 @@ exports['qb-target']:AddBoxZone("NewRentalMenu4", vector3(1152.78, -373.01, 67.1
               label = "Return Vehicle (Receive Back 50% of original price)",
           },
       },
-      job = {"all"},
-      distance = 3.5
+     distance = 3.5
 })
 
 exports['qb-target']:AddBoxZone("NewRentalMenu5", vector3(463.51, -1676.57, 29.29), 2, 2, {
@@ -188,7 +206,6 @@ exports['qb-target']:AddBoxZone("NewRentalMenu5", vector3(463.51, -1676.57, 29.2
               label = "Return Vehicle (Receive Back 50% of original price)",
           },
       },
-      job = {"all"},
       distance = 3.5
 })
 
