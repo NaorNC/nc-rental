@@ -16,8 +16,37 @@ Config.vehicleList = {
 -- Blips 
 Config.Locations = {
     ["rentalstations"] = {
-        [1] = {label = "Rental Stations", coords = vector4(-1229.33, -177.31, 39.33, 88.64)},
+        [1] = {label = "Rental Stations", coords = vector4(1152.44, -372.97, 67.2, 270.36)},
+        [2] = {label = "Rental Stations", coords = vector4(462.75, -1676.62, 29.29, 5.02)},
+        [3] = {label = "Rental Stations", coords = vector4(-1442.49, -673.65, 26.53, 288.07)},
     },
 }
 
 
+
+Config.spawn = {
+    --- Mirror Park
+	[1] = { 
+		workSpawn = {
+			coords = vector3(1144.69, -383.79, 67.05),
+			heading = 344.69,
+		},
+	},
+    --- Davis 
+    [2] = { 
+		workSpawn = {
+			coords = vector3(460.1, -1699.62, 29.3),
+			heading = 323.94,
+		},
+	},
+ --- Marathon Avenue
+    [3] = { 
+		workSpawn = {
+			coords = vector3(-1444.12, -680.25, 26.39),
+			heading = 122.5,
+		},
+	},
+}
+
+
+-- Addding Exports to your QB-Target Can be found at client.lua

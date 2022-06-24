@@ -1,6 +1,3 @@
-**This resource I will not been take any credits**
-Its been Edited for XYZ Roleplay
-
 # Video of the script:
 
 * click - https://streamable.com/msejyp
@@ -13,7 +10,7 @@ Its been Edited for XYZ Roleplay
 Add the following code to your server.cfg/resouces.cfg
 ```
 ensure nh-context
-ensure nc-rental
+ensure qb-rental
 ```
 
 # Dependencies
@@ -31,7 +28,7 @@ AddBoxZone("NewRentalMenu4", vector3(-1230.054, -176.4136, 39.327087), 2, 3.2, {
         }, {
             options = {
                 {
-                    event = "nc-rental:vehiclelist",
+                    event = "qb-rental:vehiclelist",
                     icon = "fas fa-circle",
                     label = "Rent vehicle",
                 },
@@ -61,6 +58,3 @@ AddBoxZone("NewRentalMenu4", vector3(-1230.054, -176.4136, 39.327087), 2, 3.2, {
             $(".item-info-description").html('<p><strong>Plate: </strong><span>'+ itemData.info.label + '</span></p>');
 
 ```
-
-
-#Added Blips in Config Folder

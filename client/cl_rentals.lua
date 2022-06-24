@@ -1,7 +1,7 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterNetEvent("nc-rental:vehiclelist")
-AddEventHandler("nc-rental:vehiclelist", function()
+RegisterNetEvent("qb-rental:vehiclelist")
+AddEventHandler("qb-rental:vehiclelist", function()
   for i = 1, #Config.vehicleList do
     TriggerEvent('nh-context:sendMenu', {
       {
@@ -9,7 +9,7 @@ AddEventHandler("nc-rental:vehiclelist", function()
         header = Config.vehicleList[i].name,
         txt = "$"..Config.vehicleList[i].price..".00",
         params = {
-          event = "nc-rental:attemptvehiclespawn",
+          event = "qb-rental:attemptvehiclespawn",
           args = {
             id = Config.vehicleList[i].model,
             price = Config.vehicleList[i].price,
@@ -20,20 +20,20 @@ AddEventHandler("nc-rental:vehiclelist", function()
   end
 end)
 
-RegisterNetEvent("nc-rental:attemptvehiclespawn")
-AddEventHandler("nc-rental:attemptvehiclespawn", function(vehicle)
-    TriggerServerEvent("nc-rental:attemptPurchase",vehicle.id, vehicle.price)
+RegisterNetEvent("qb-rental:attemptvehiclespawn")
+AddEventHandler("qb-rental:attemptvehiclespawn", function(vehicle)
+    TriggerServerEvent("qb-rental:attemptPurchase",vehicle.id, vehicle.price)
 end)
 
-RegisterNetEvent("nc-rental:attemptvehiclespawnfail")
-AddEventHandler("nc-rental:attemptvehiclespawnfail", function()
+RegisterNetEvent("qb-rental:attemptvehiclespawnfail")
+AddEventHandler("qb-rental:attemptvehiclespawnfail", function()
   QBCore.Functions.Notify("Not enough money.", "error")
 end)
 
 local PlayerName = nil
 
-RegisterNetEvent("nc-rental:giverentalpaperClient")
-AddEventHandler("nc-rental:giverentalpaperClient", function(model, plate, name)
+RegisterNetEvent("qb-rental:giverentalpaperClient")
+AddEventHandler("qb-rental:giverentalpaperClient", function(model, plate, name)
 
   local info = {
     data = "Model : "..tostring(model).." | Plate : "..tostring(plate)..""
@@ -41,18 +41,18 @@ AddEventHandler("nc-rental:giverentalpaperClient", function(model, plate, name)
   TriggerServerEvent('QBCore:Server:AddItem', "rentalpapers", 1, info)
 end)
 
-RegisterNetEvent("nc-rental:returnvehicle")
-AddEventHandler("nc-rental:returnvehicle", function()
+RegisterNetEvent("qb-rental:returnvehicle")
+AddEventHandler("qb-rental:returnvehicle", function()
   local car = GetVehiclePedIsIn(PlayerPedId(),true)
 
   if car ~= 0 then
     local plate = GetVehicleNumberPlateText(car)
     local vehname = string.lower(GetDisplayNameFromVehicleModel(GetEntityModel(car)))
     if string.find(tostring(plate), "NC") then
-      QBCore.Functions.TriggerCallback('nc-rental:server:hasrentalpapers', function(HasItem)
+      QBCore.Functions.TriggerCallback('qb-rental:server:hasrentalpapers', function(HasItem)
         if HasItem then
           TriggerServerEvent("QBCore:Server:RemoveItem", "rentalpapers", 1)
-          TriggerServerEvent('nc-rental:server:payreturn',vehname)
+          TriggerServerEvent('qb-rental:server:payreturn',vehname)
           DeleteVehicle(car)
           DeleteEntity(car)
         else
@@ -68,9 +68,22 @@ AddEventHandler("nc-rental:returnvehicle", function()
   end
 end)
 
-RegisterNetEvent("nc-rental:vehiclespawn")
-AddEventHandler("nc-rental:vehiclespawn", function(data, cb)
+RegisterNetEvent("qb-rental:vehiclespawn") 
+AddEventHandler("qb-rental:vehiclespawn", function(data, cb)
   local model = data
+
+  local closestDist = 10000
+  local closestSpawn = nil
+  local pcoords = GetEntityCoords(PlayerPedId())
+  
+  for i, v in ipairs(Config.spawn) do
+      local dist = #(v.workSpawn.coords - pcoords)
+  
+      if dist < closestDist then
+          closestDist = dist
+          closestSpawn = v.workSpawn
+      end
+  end
 
   RequestModel(model)
   while not HasModelLoaded(model) do
@@ -78,7 +91,7 @@ AddEventHandler("nc-rental:vehiclespawn", function(data, cb)
   end
   SetModelAsNoLongerNeeded(model)
 
-  local veh = CreateVehicle(model, vector4(-1235.327, -180.5932, 38.784908, 261.06628), true, false)
+  local veh = CreateVehicle(model, closestSpawn.coords.x, closestSpawn.coords.y, closestSpawn.coords.z, closestSpawn.heading, true)
   Citizen.Wait(100)
   SetEntityAsMissionEntity(veh, true, true)
   SetModelAsNoLongerNeeded(model)
@@ -88,7 +101,7 @@ AddEventHandler("nc-rental:vehiclespawn", function(data, cb)
   TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
 
   local plateText = GetVehicleNumberPlateText(veh)
-  TriggerServerEvent("nc-rental:giverentalpaperServer",model ,plateText)
+  TriggerServerEvent("qb-rental:giverentalpaperServer",model ,plateText)
 
   local timeout = 10
   while not NetworkDoesEntityExistWithNetworkId(veh) and timeout > 0 do
@@ -122,8 +135,8 @@ CreateThread(function()
       local blip = AddBlipForCoord(rental.coords.x, rental.coords.y, rental.coords.z)
       SetBlipSprite(blip, 326)
       SetBlipAsShortRange(blip, true)
-      SetBlipScale(blip, 0.8)
-      SetBlipColour(blip, 4)
+      SetBlipScale(blip, 0.5)
+      SetBlipColour(blip, 5)
       BeginTextCommandSetBlipName("STRING")
       AddTextComponentString(rental.label)
       EndTextCommandSetBlipName(blip)
@@ -133,21 +146,67 @@ end)
 
 
 -- Exports to Polyzone Box # Config could also work # MoneSuper
-exports['qb-target']:AddBoxZone("NewRentalMenu4", vector3(-1230.054, -176.4136, 39.327087), 2, 3.2, {
+exports['qb-target']:AddBoxZone("NewRentalMenu4", vector3(1152.78, -373.01, 67.14), 1.4, 1.4, {
   name="NewRentalMenu4",
-  heading=0,
+  heading=8,
   debugPoly=false,
-  minZ=38.301415,
-  maxZ=40.301415
+  minZ = 64.34,
+  maxZ = 68.34,
   }, {
       options = {
           {
-              event = "nc-rental:vehiclelist",
+              event = "qb-rental:vehiclelist",
               icon = "fas fa-circle",
               label = "Rent vehicle",
           },
           {
-              event = "nc-rental:returnvehicle",
+              event = "qb-rental:returnvehicle",
+              icon = "fas fa-circle",
+              label = "Return Vehicle (Receive Back 50% of original price)",
+          },
+      },
+      job = {"all"},
+      distance = 3.5
+})
+
+exports['qb-target']:AddBoxZone("NewRentalMenu5", vector3(463.51, -1676.57, 29.29), 2, 2, {
+  name="NewRentalMenu5",
+  heading=0,
+  debugPoly=false,
+  minZ = 26.89,
+  maxZ = 30.89,
+  }, {
+      options = {
+          {
+              event = "qb-rental:vehiclelist",
+              icon = "fas fa-circle",
+              label = "Rent vehicle",
+          },
+          {
+              event = "qb-rental:returnvehicle",
+              icon = "fas fa-circle",
+              label = "Return Vehicle (Receive Back 50% of original price)",
+          },
+      },
+      job = {"all"},
+      distance = 3.5
+})
+
+exports['qb-target']:AddBoxZone("NewRentalMenu6", vector3(-1442.28, -674.07, 26.48), 2, 2, {
+  name="NewRentalMenu6",
+  heading=305,
+  debugPoly=false,
+  minZ = 24.48,
+  maxZ = 28.48,
+  }, {
+      options = {
+          {
+              event = "qb-rental:vehiclelist",
+              icon = "fas fa-circle",
+              label = "Rent vehicle",
+          },
+          {
+              event = "qb-rental:returnvehicle",
               icon = "fas fa-circle",
               label = "Return Vehicle (Receive Back 50% of original price)",
           },
