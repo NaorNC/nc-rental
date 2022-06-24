@@ -1,5 +1,7 @@
 Config = {}
 
+Config.setupMenu = 'qb-menu' -- qb-menu / nh-context
+
 Config.vehicleList = {
     { name = "Bison", model = "bison", price = 300 },
     { name = "Futo", model = "Futo", price = 250 },
@@ -22,9 +24,7 @@ Config.Locations = {
     },
 }
 
-
-
-Config.spawn = {
+Config.VehicleSpawn = {
     --- Mirror Park
 	[1] = { 
 		workSpawn = {
