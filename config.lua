@@ -24,7 +24,7 @@ Config.Locations = {
     },
 }
 
-Config.VehicleSpawn = {
+Config.vehicleSpawn = {
     --- Mirror Park
 	[1] = { 
 		workSpawn = {
