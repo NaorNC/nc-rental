@@ -1,7 +1,7 @@
 # Video of the script:
 
 * click - https://streamable.com/msejyp
-* If you have any further questions, you can add me to Discord - NaorNC#8998
+* If you have any further questions, you can open ticket in discord - https://discord.gg/cKt4Mpd2PQ
 
 # Installation
 
