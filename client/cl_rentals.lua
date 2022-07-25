@@ -1,4 +1,4 @@
-QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterNetEvent("qb-rental:vehiclelist", function()
   for i = 1, #Config.vehicleList do
