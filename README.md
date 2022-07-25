@@ -17,31 +17,26 @@ ensure nc-rental
 * [nh-context](https://github.com/nighmares/nh-context)
 * [qb-menu](https://github.com/qbcore-framework/qb-menu)
 
-# Use via Eye Target
+# How to add more locations? [for example]
+
+Config.lua -> Config.Locations & Config.lua -> Config.vehicleSpawn
 
 ```lua
-AddBoxZone("NewRentalMenu4", vector3(-1230.054, -176.4136, 39.327087), 2, 3.2, {
-        name="NewRentalMenu4",
-        heading=0,
-        debugPoly=false,
-        minZ=38.301415,
-        maxZ=40.301415
-        }, {
-            options = {
-                {
-                    event = "nc-rental:vehiclelist",
-                    icon = "fas fa-circle",
-                    label = "Rent vehicle",
-                },
-                {
-                    event = "nc-rental:returnvehicle",
-                    icon = "fas fa-circle",
-                    label = "Return Vehicle (Receive Back 50% of original price)",
-                },
-            },
-            job = {"all"},
-            distance = 3.5
-    })
+Config.Locations = {
+    ["rentalstations"] = {
+        [1] = {label = "Rental Stations", coords = vector4(1152.44, -372.97, 67.2, 270.36)},
+
+    },
+}
+
+Config.vehicleSpawn = {
+--- Mirror Park
+	[1] = { 
+	workSpawn = {
+	coords = vector3(1144.69, -383.79, 67.05),
+	heading = 344.69,
+	},
+},
 ```
 # Put this line on shared.lua in your core.
 
