@@ -3,7 +3,7 @@ games { 'gta5' }
 
 author 'NaorNC - github.com/NaorNC'
 description 'Discrod - NaorNC#8998'
-version '1.0.1'
+version '1.2'
 
 client_scripts {
   'config.lua',
