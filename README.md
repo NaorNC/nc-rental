@@ -15,6 +15,7 @@ ensure nc-rental
 
 # Dependencies
 * [nh-context](https://github.com/nighmares/nh-context)
+* [qb-menu](https://github.com/qbcore-framework/qb-menu)
 
 # Use via Eye Target
 
