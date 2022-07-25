@@ -17,32 +17,6 @@ ensure nc-rental
 * [nh-context](https://github.com/nighmares/nh-context)
 * [qb-menu](https://github.com/qbcore-framework/qb-menu)
 
-# Use via Eye Target [For Example]
-
-```lua
-AddBoxZone("NewRentalMenu4", vector3(-1230.054, -176.4136, 39.327087), 2, 3.2, {
-        name="NewRentalMenu4",
-        heading=0,
-        debugPoly=false,
-        minZ=38.301415,
-        maxZ=40.301415
-        }, {
-            options = {
-                {
-                    event = "nc-rental:vehiclelist",
-                    icon = "fas fa-circle",
-                    label = "Rent vehicle",
-                },
-                {
-                    event = "nc-rental:returnvehicle",
-                    icon = "fas fa-circle",
-                    label = "Return Vehicle (Receive Back 50% of original price)",
-                },
-            },
-            job = {"all"},
-            distance = 3.5
-    })
-```
 # Put this line on shared.lua in your core.
 
 ```
