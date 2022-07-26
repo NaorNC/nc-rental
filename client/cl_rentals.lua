@@ -73,8 +73,7 @@ RegisterNetEvent("qb-rental:returnvehicle", function()
         if HasItem then
           TriggerServerEvent("QBCore:Server:RemoveItem", "rentalpapers", 1)
           TriggerServerEvent('qb-rental:server:payreturn',vehname)
-          DeleteVehicle(car)
-          DeleteEntity(car)
+          QBCore.Functions.DeleteVehicle(car)
         else
           QBCore.Functions.Notify("I cannot take a vehicle without its papers.", "error")
         end
